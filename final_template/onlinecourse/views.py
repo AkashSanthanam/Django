@@ -88,6 +88,13 @@ class CourseDetailView(generic.DetailView):
     model = Course
     template_name = 'onlinecourse/course_detail_bootstrap.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.object  # Get the course
+        lesson = course.lesson_set.first()  # Get the first lesson (you might need to adjust this logic)
+        context['lesson'] = lesson  # Pass the lesson to the template
+        return context
+
 
 def enroll(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
