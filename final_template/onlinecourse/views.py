@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
-from .models import Course, Enrollment, Submission
+from .models import Course, Enrollment, Question, Choice, Submission
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -178,7 +178,7 @@ def show_exam_result(request, course_id, submission_id):
     passing_score = 70  # Adjust this threshold as needed
     passed = total_score >= passing_score
 
-    return render(request, 'onlinecourse/exam_result.html', {
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', {
         'course': course,
         'submission': submission,
         'total_score': total_score,
