@@ -37,11 +37,14 @@ class QuestionAdmin(admin.ModelAdmin):
 class InstructorAdmin(admin.ModelAdmin):
     fields = ['user', 'full_time', 'total_learners']
 
+class ChoiceAdmin(admin.ModelAdmin):
+    fields = ['choice']    
+
 # <HINT> Register Question and Choice models here
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Instructor, InstructorAdmin)
+admin.site.register(Choice, ChoiceAdmin)
 admin.site.register(Learner)
-admin.site.register(Choice)
