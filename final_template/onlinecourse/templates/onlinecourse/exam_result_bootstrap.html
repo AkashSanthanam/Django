@@ -38,11 +38,11 @@
 <div class="container-fluid">
     {% if passed %}
     <div class="alert alert-success">
-        Congratulations! You have passed the exam with a score of {{ total_score }}%.
+        Congratulations! You have passed the exam with a score of {{total_percentage}}%.
     </div>
     {% else %}
     <div class="alert alert-danger">
-        Unfortunately, you have failed the exam with a score of {{ total_score }}%.
+        Unfortunately, you have failed the exam with a score of {{ total_percentage }}%.
     </div>
     <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
     {% endif %}

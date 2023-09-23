@@ -170,18 +170,22 @@ def show_exam_result(request, course_id, submission_id):
 
     # Calculate the total score
     total_score = 0
+    total_questions = 0
     for question in course.lesson_set.all().values_list('question__id', flat=True):
+        total_questions += 1
         if set(selected_choice_ids).issuperset(set(Choice.objects.filter(question_id=question, is_correct=True).values_list('id', flat=True))):
             total_score += 1
 
     # Check if the learner passed the exam (you can define a passing score threshold)
+
+    total_percentage = (total_score / total_questions) * 100
     passing_score = 70  # Adjust this threshold as needed
-    passed = total_score >= passing_score
+    passed = total_percentage >= passing_score
 
     return render(request, 'onlinecourse/exam_result_bootstrap.html', {
         'course': course,
         'submission': submission,
-        'total_score': total_score,
+        'total_percentage': total_percentage,
         'passed': passed,
     })
 
