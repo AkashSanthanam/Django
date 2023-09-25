@@ -171,10 +171,21 @@ def show_exam_result(request, course_id, submission_id):
     # Calculate the total score
     total_score = 0
     total_questions = 0
-    for question in course.lesson_set.all().values_list('question__id', flat=True):
-        total_questions += 1
-        if set(selected_choice_ids).issuperset(set(Choice.objects.filter(question_id=question, is_correct=True).values_list('id', flat=True))):
-            total_score += 1
+    exam_results = []  # Initialize a list to store question results
+
+    for lesson in course.lesson_set.all():
+        for question in lesson.question_set.all():
+            total_questions += 1
+            is_correct = set(selected_choice_ids).issuperset(
+                set(question.choice_set.filter(is_correct=True).values_list('id', flat=True))
+            )
+            total_score += 1 if is_correct else 0
+
+            # Append the question result to exam_results
+            exam_results.append({
+                'question': question.question,
+                'correct': is_correct,
+            })
 
     # Check if the learner passed the exam (you can define a passing score threshold)
 
@@ -187,6 +198,7 @@ def show_exam_result(request, course_id, submission_id):
         'submission': submission,
         'total_percentage': total_percentage,
         'passed': passed,
+        'exam_results' : exam_results
     })
 
 
